@@ -1,4 +1,4 @@
-"""High-level formatting helpers for the compiler simulator UI."""
+﻿"""High-level formatting helpers for the compiler simulator UI."""
 
 from __future__ import annotations
 
@@ -58,6 +58,11 @@ def compiler_explanation(stage: str) -> str:
             "The compiler converts the program into machine-independent Three-Address Code.",
             "Temporary variables are created for sub-expressions to keep the code simple.",
         ],
+        "execution": [
+            "Program Output Simulation:",
+            "The DSL program is executed logically so you can see what show(...) would print.",
+            "This step helps beginners understand the final result of the program.",
+        ],
     }
     lines = explanations.get(stage, ["Compiler Stage:", "Processing the current compilation phase."])
     return "\n".join(lines)
@@ -74,7 +79,7 @@ def render_dashboard_text(
 
     header = [
         "=" * 56,
-        f"{'DSL COMPILER SIMULATOR':^56}",
+        f"{'JAN':^56}",
         "=" * 56,
         f"{'Project':<14}: {project}",
         f"{'Language':<14}: {language}",
@@ -186,6 +191,7 @@ def render_compilation_summary(session: Any) -> str:
         ("Variables Declared", stats["variables_declared"]),
         ("Statements Parsed", stats["statements_parsed"]),
         ("Temporary Variables", stats["temporary_vars"]),
+        ("Program Output Lines", stats.get("program_output_lines", 0)),
         ("Compilation Time", f"{stats['compilation_time']:.2f} sec"),
     ]
     return render_table(rows, headers=("Summary", "Value"), tablefmt="grid")
@@ -355,6 +361,8 @@ def _suggest_fix(kind: str, message: str, line_text: str) -> str:
         return "Use a different variable name or remove the duplicate declaration."
     if "condition must be relational" in lowered:
         return "Use a relational expression such as a < b or x == y."
+    if "not supported" in lowered or "unsupported function" in lowered:
+        return "Use show(...) instead of printf(...) or another unsupported function call."
     return "Review the highlighted line and correct the compiler message."
 
 
@@ -367,3 +375,4 @@ def _summary_status(status: str) -> str:
     if normalized == "ACTIVE":
         return "RUNNING"
     return normalized
+

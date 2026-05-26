@@ -1,4 +1,4 @@
-"""Dashboard rendering helpers for the compiler simulator."""
+﻿"""Dashboard rendering helpers for the compiler simulator."""
 
 from __future__ import annotations
 
@@ -21,12 +21,12 @@ def render_dashboard(session: Any, active_stage: str | None = None) -> str:
 
     header = [
         "=" * 56,
-        f"{'DSL COMPILER SIMULATOR':^56}",
+        f"{'JAN':^56}",
         "=" * 56,
     ]
     details = render_table(
         [
-            ("Project", "Compiler Front-End"),
+            ("Project", "JAN - Intelligent DSL Compiler Assistant"),
             ("Language", "Custom DSL"),
             ("Input File", getattr(session, "source_name", "Untitled")),
             ("Status", _status_label(getattr(session, "overall_status", "READY"))),
@@ -67,4 +67,5 @@ def _status_label(status: str) -> str:
     if normalized == "SUCCESS":
         return f"{Fore.GREEN}[SUCCESS]{Style.RESET_ALL}"
     return f"{Fore.CYAN}[{normalized}]{Style.RESET_ALL}"
+
 

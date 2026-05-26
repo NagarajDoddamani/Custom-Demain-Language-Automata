@@ -250,6 +250,10 @@ class Parser:
     def _consume(self, token_type: str, value: Optional[str], message: str) -> Token:
         if self._check(token_type, value):
             return self._advance()
+        if token_type == "SEPARATOR" and value == ";" and self.current > 0:
+            anchor = self._previous()
+            column = anchor.column + max(len(anchor.value), 1)
+            raise ParserError(f"Syntax Error at line {anchor.line}, column {column}: {message}")
         self._error(self._peek(), message)
 
     def _check(self, token_type: str, value: Optional[str] = None) -> bool:

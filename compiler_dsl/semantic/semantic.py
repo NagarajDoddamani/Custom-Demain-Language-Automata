@@ -103,7 +103,9 @@ class SemanticAnalyzer:
         elif isinstance(statement, PrintStatement):
             self._infer_expression(statement.expression)
         elif isinstance(statement, FunctionCall):
-            self._analyze_function_call(statement)
+            raise SemanticError(
+                f"Semantic Error: Function '{statement.name}' is not supported in this DSL at line {statement.line}"
+            )
         elif isinstance(statement, IfStatement):
             self._analyze_if(statement)
         elif isinstance(statement, WhileStatement):

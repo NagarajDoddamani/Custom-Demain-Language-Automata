@@ -5,6 +5,7 @@ from __future__ import annotations
 import textwrap
 import unittest
 
+from compiler_dsl.core.executor import ProgramExecutor
 from compiler_dsl.intermediate.tac_generator import TACGenerator
 from compiler_dsl.lab_tasks import (
     check_c_statements,
@@ -54,6 +55,15 @@ FUNCTION_CALL_SOURCE = textwrap.dedent(
 ).strip()
 
 
+EXECUTION_SOURCE = textwrap.dedent(
+    """
+    num a = 10;
+    num b = 20;
+    show(a + b);
+    """
+).strip()
+
+
 TYPE_ERROR_SOURCE = textwrap.dedent(
     """
     num a = 10;
@@ -67,6 +77,16 @@ SYNTAX_ERROR_SOURCE = textwrap.dedent(
     """
     num a = 10
     show(a);
+    """
+).strip()
+
+
+MISSING_SEMICOLON_SOURCE = textwrap.dedent(
+    """
+    //my program
+    text name="nagaraj"
+    num a=3;
+    show(name*a);
     """
 ).strip()
 
@@ -94,6 +114,14 @@ class CompilerProjectTests(unittest.TestCase):
         with self.assertRaises(ParserError):
             parser.parse()
 
+    def test_missing_semicolon_reports_previous_line(self) -> None:
+        lexer = Lexer(MISSING_SEMICOLON_SOURCE)
+        tokens = lexer.tokenize()
+        parser = Parser(tokens)
+        with self.assertRaises(ParserError) as context:
+            parser.parse()
+        self.assertIn("line 2", str(context.exception))
+
     def test_semantic_analysis_accepts_valid_program(self) -> None:
         lexer = Lexer(VALID_SOURCE)
         program = Parser(lexer.tokenize()).parse()
@@ -109,6 +137,14 @@ class CompilerProjectTests(unittest.TestCase):
         with self.assertRaises(SemanticError):
             analyzer.analyze(program)
 
+    def test_unsupported_function_call_reports_error(self) -> None:
+        lexer = Lexer(FUNCTION_CALL_SOURCE)
+        program = Parser(lexer.tokenize()).parse()
+        analyzer = SemanticAnalyzer()
+        with self.assertRaises(SemanticError) as context:
+            analyzer.analyze(program)
+        self.assertIn("not supported", str(context.exception))
+
     def test_tac_generation(self) -> None:
         lexer = Lexer(VALID_SOURCE)
         program = Parser(lexer.tokenize()).parse()
@@ -122,14 +158,12 @@ class CompilerProjectTests(unittest.TestCase):
         program = Parser(lexer.tokenize()).parse()
         self.assertGreaterEqual(len(program.statements), 4)
 
-    def test_function_call_statement(self) -> None:
-        lexer = Lexer(FUNCTION_CALL_SOURCE)
+    def test_program_execution_outputs_values(self) -> None:
+        lexer = Lexer(EXECUTION_SOURCE)
         program = Parser(lexer.tokenize()).parse()
-        self.assertEqual(len(program.statements), 2)
-        symbol_table = SemanticAnalyzer().analyze(program)
-        self.assertEqual(symbol_table.lookup("b").value, 20)
-        tac = TACGenerator().generate(program)
-        self.assertIn("call printf, 2", tac)
+        SemanticAnalyzer().analyze(program)
+        result = ProgramExecutor().execute(program)
+        self.assertEqual(result.outputs, ["30"])
 
     def test_lab_tasks(self) -> None:
         self.assertEqual(count_vowels_consonants("Compiler"), (3, 5))

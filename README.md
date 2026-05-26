@@ -1,6 +1,6 @@
-# DSL Compiler Simulator
+﻿# JAN
 
-This project is a beginner-friendly compiler front-end and terminal-based compiler simulator built in Python.
+This project is a beginner-friendly JAN - Intelligent DSL Compiler Assistant and terminal-based compiler simulator built in Python.
 
 It demonstrates:
 
@@ -26,10 +26,10 @@ You can:
 
 ```text
 ========================================================
-              DSL COMPILER SIMULATOR
+              JAN
 ========================================================
 
-Project      : Compiler Front-End
+Project      : JAN - Intelligent DSL Compiler Assistant
 Language     : Custom DSL
 Input File   : test.dsl
 Status       : READY
@@ -46,35 +46,35 @@ Status       : READY
 
 ```text
 compiler_dsl/
-├── compiler/
-│   ├── lexer.py
-│   ├── parser.py
-│   ├── semantic.py
-│   ├── tac.py
-│   └── session.py
-├── core/
-│   ├── compiler.py
-│   ├── lexer.py
-│   ├── parser.py
-│   ├── semantic.py
-│   └── tac.py
-├── ui/
-│   ├── animations.py
-│   ├── colors.py
-│   ├── dashboard.py
-│   ├── display.py
-│   ├── menu.py
-│   ├── progress.py
-│   └── table.py
-├── outputs/
-├── sample_programs/
-├── lexer/
-├── parser/
-├── semantic/
-├── intermediate/
-├── lab_tasks/
-├── ast_nodes.py
-└── utils.py
+â”œâ”€â”€ compiler/
+â”‚   â”œâ”€â”€ lexer.py
+â”‚   â”œâ”€â”€ parser.py
+â”‚   â”œâ”€â”€ semantic.py
+â”‚   â”œâ”€â”€ tac.py
+â”‚   â””â”€â”€ session.py
+â”œâ”€â”€ core/
+â”‚   â”œâ”€â”€ compiler.py
+â”‚   â”œâ”€â”€ lexer.py
+â”‚   â”œâ”€â”€ parser.py
+â”‚   â”œâ”€â”€ semantic.py
+â”‚   â””â”€â”€ tac.py
+â”œâ”€â”€ ui/
+â”‚   â”œâ”€â”€ animations.py
+â”‚   â”œâ”€â”€ colors.py
+â”‚   â”œâ”€â”€ dashboard.py
+â”‚   â”œâ”€â”€ display.py
+â”‚   â”œâ”€â”€ menu.py
+â”‚   â”œâ”€â”€ progress.py
+â”‚   â””â”€â”€ table.py
+â”œâ”€â”€ outputs/
+â”œâ”€â”€ sample_programs/
+â”œâ”€â”€ lexer/
+â”œâ”€â”€ parser/
+â”œâ”€â”€ semantic/
+â”œâ”€â”€ intermediate/
+â”œâ”€â”€ lab_tasks/
+â”œâ”€â”€ ast_nodes.py
+â””â”€â”€ utils.py
 
 main.py
 tests/test_compiler.py
@@ -97,10 +97,10 @@ The simulator saves compilation artifacts automatically in:
 
 ```text
 compiler_dsl/outputs/
-├── tokens.txt
-├── symbol_table.txt
-├── tac.txt
-└── logs.txt
+â”œâ”€â”€ tokens.txt
+â”œâ”€â”€ symbol_table.txt
+â”œâ”€â”€ tac.txt
+â””â”€â”€ logs.txt
 ```
 
 ## Sample DSL Program
@@ -158,4 +158,5 @@ python -m unittest discover -s tests
 - The UI is fully terminal-based and works in PowerShell or a regular console.
 - The project uses pure Python with small helper modules for tables, colors, progress bars, and explanations.
 - `colorama` and `tabulate` are optional dependencies. If they are not installed, the app still runs using fallbacks.
+
 

@@ -52,7 +52,9 @@ class TACGenerator:
             value = self._emit_expression(statement.expression)
             self._emit(f"print {value}")
         elif isinstance(statement, FunctionCall):
-            self._emit_function_call(statement)
+            raise RuntimeError(
+                f"Unsupported function call '{statement.name}' at line {statement.line}"
+            )
         elif isinstance(statement, IfStatement):
             self._emit_if(statement)
         elif isinstance(statement, WhileStatement):

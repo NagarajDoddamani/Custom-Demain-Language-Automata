@@ -49,5 +49,7 @@ def remove_comments(source: str) -> str:
 
 if __name__ == "__main__":
     sample = "num a = 10; // comment\n/* block */\nshow(a);"
-    print(remove_comments(sample))
+
+    print(f"input: {sample}")
+    print(f"\noutput : {remove_comments(sample)}")
 
